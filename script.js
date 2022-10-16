@@ -14,6 +14,13 @@ getRequest(saveDataToFile);
 
 //FUNCTIONS
 function setLimitFromInputAgruments(){
+  for(let i=0;i<process.argv.length;i++){
+    if(typeof process.argv[i]==="number"){
+      limit=process.argv[i];
+      break;
+    }
+  }
+
     if(process.argv[2]) limit=Number(process.argv[2]);
 }
 function saveDataToFile(filename, content) {
@@ -22,7 +29,7 @@ function saveDataToFile(filename, content) {
     console.log("The file has been saved!");
   });
 }
-function getRequest(save) {
+function getRequest(saveFunction) {
   const options = {
     hostname: "api.alternative.me",
     port: 443,
@@ -34,7 +41,7 @@ function getRequest(save) {
         str += chunk;
       });
       res.on("end", () => {
-        save("data", str); //save data to file
+        saveFunction("data", str); //save data to file
       });
     }).end();
 }
